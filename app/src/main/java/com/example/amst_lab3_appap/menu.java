@@ -28,4 +28,11 @@ public class menu extends AppCompatActivity {
         red_sensores.putExtra("token", token);
         startActivity(red_sensores);
     }
+
+    public void enviarDatos(View v){
+        Intent enviar_datos = new Intent(getBaseContext(),
+                EnviarDatos.class);
+        enviar_datos.putExtra("token", token);
+        startActivity(enviar_datos);
+    }
 }

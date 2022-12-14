@@ -29,6 +29,12 @@
         android:onClick="revisarSensores"
         android:text="Control de sensores" />
     <Button
+        android:id="@+id/btn_envio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="datosEnviados"
+        android:text="Envio de datos a los sensores" />
+    <Button
         android:id="@+id/btn_pedidos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
