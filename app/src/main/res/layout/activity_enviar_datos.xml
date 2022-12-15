@@ -10,6 +10,7 @@
         android:layout_width="395dp"
         android:layout_height="715dp"
         android:orientation="vertical"
+        android:gravity="center_horizontal"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="8dp"
         tools:ignore="MissingConstraints">
@@ -30,13 +31,6 @@
                 android:gravity="right|center_vertical"
                 android:hint="Ingrese temperatura"
                 android:textSize="24sp" />
-            <Button
-                android:id="@+id/btn_temp"
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClick="agregar_temperatura"
-                android:text="Agregar" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -55,13 +49,6 @@
                 android:gravity="right|center_vertical"
                 android:hint="Ingrese humedad"
                 android:textSize="24sp"/>
-            <Button
-                android:id="@+id/btn_hum"
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClick="agregar_humedad"
-                android:text="Agregar" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -80,14 +67,12 @@
                 android:gravity="right|center_vertical"
                 android:hint="Ingrese peso"
                 android:textSize="24sp" />
-            <Button
-                android:id="@+id/btn_peso"
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClick="agregar_peso"
-                android:text="Agregar" />
         </LinearLayout>
+        <Button
+            android:id="@+id/btn_agregar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Agregar" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

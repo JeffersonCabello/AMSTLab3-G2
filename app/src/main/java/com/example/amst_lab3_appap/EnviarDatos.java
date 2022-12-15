@@ -28,8 +28,6 @@ public class EnviarDatos extends AppCompatActivity {
     private EditText e2;
     private EditText e3;
     private Button b1;
-    private Button b2;
-    private Button b3;
     private RequestQueue mQueue;
     private String token = "";
 
@@ -45,52 +43,33 @@ public class EnviarDatos extends AppCompatActivity {
         this.token = (String)login.getExtras().get("token");
 
         e1 = (EditText) findViewById(R.id.temp_ing);
-        b1 = (Button) findViewById(R.id.btn_temp);
+        e2 = (EditText) findViewById(R.id.humedad_ing);
+        e3 = (EditText) findViewById(R.id.peso_ing);
+
+        b1 = (Button) findViewById(R.id.btn_agregar);
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(e1.getText().toString().equals("")){
-                    Toast.makeText(EnviarDatos.this, "Ingrese datos", Toast.LENGTH_SHORT);
-                }
-                else{
-                    envio_temp();
-                }
-            }
-        });
-
-        e2 = (EditText) findViewById(R.id.humedad_ing);
-        b2 = (Button) findViewById(R.id.btn_hum);
-        b2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(e2.getText().toString().equals("")){
-                    Toast.makeText(EnviarDatos.this, "Ingrese datos", Toast.LENGTH_SHORT);
-                }
-                else{
-                    envio_hum();
-                }
-            }
-        });
-
-        e3 = (EditText) findViewById(R.id.peso_ing);
-        b3 = (Button) findViewById(R.id.btn_peso);
-        b3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(e3.getText().toString().equals("")){
-                    Toast.makeText(EnviarDatos.this, "Ingrese datos", Toast.LENGTH_SHORT);
-                }
-                else{
-                    envio_peso();
+                if(validar_informacion() == 1){
+                    envio_datos();
                 }
             }
         });
     }
 
-    public void envio_temp(){
-        String url = " https://amst-lab-api.herokuapp.com/api/sensores/";
+    public void envio_datos(){
+        String temperatura = e1.getText().toString();
+        String humedad = e2.getText().toString();
+        String peso = e3.getText().toString();
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("temperatura", temperatura);
+        params.put("humedad", humedad);
+        params.put("peso", peso);
+        JSONObject parametros = new JSONObject(params);
+        String url = "https://amst-lab-api.herokuapp.com/api/sensores/";
+        System.out.println(parametros);
         JsonObjectRequest request = new JsonObjectRequest(
-                Request.Method.POST, url, null,
+                Request.Method.POST, url, parametros,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -106,62 +85,20 @@ public class EnviarDatos extends AppCompatActivity {
             public Map<String, String> getHeaders() throws AuthFailureError
             {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("temperatura", e1.getText().toString());
+                params.put("Authorization", "JWT "+token);
+                System.out.println(token);
                 return params;
             }
         };
         mQueue.add(request);
     }
 
-    public void envio_hum(){
-        String url = " https://amst-lab-api.herokuapp.com/api/sensores/";
-        JsonObjectRequest request = new JsonObjectRequest(
-                Request.Method.POST, url, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        }){
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError
-            {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("humedad", e2.getText().toString());
-                return params;
-            }
-        };
-        mQueue.add(request);
-    }
-
-    public void envio_peso(){
-        String url = " https://amst-lab-api.herokuapp.com/api/sensores/";
-        JsonObjectRequest request = new JsonObjectRequest(
-                Request.Method.POST, url, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        }){
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError
-            {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("peso", e3.getText().toString());
-                return params;
-            }
-        };
-        mQueue.add(request);
+    public int validar_informacion(){
+        if(e1.getText().toString().equals("") && e2.getText().toString().equals("") && e3.getText().toString().equals("")){
+            return 0;
+        }
+        else{
+            return 1;
+        }
     }
 }
